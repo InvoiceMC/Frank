@@ -3,7 +3,7 @@ plugins {
     `maven-publish`
 }
 
-group = "com.invoice.frank"
+group = "com.invoice"
 version = "1.0"
 
 repositories {
@@ -32,6 +32,10 @@ subprojects {
             implementation(project(":common"))
         }
     }
+
+    java {
+        toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    }
 }
 
 publishing {
@@ -48,4 +52,8 @@ publishing {
 
 kotlin {
     jvmToolchain(17)
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
