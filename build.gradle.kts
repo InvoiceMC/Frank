@@ -3,7 +3,7 @@ plugins {
     `maven-publish`
 }
 
-group = "com.invoice"
+group = "com.invoice.frank"
 version = "1.0"
 
 repositories {
