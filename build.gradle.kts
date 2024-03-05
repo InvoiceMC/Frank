@@ -29,6 +29,15 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks {
+    compileKotlin {
+        kotlinOptions.jvmTarget = "17"
+    }
+    compileJava {
+        options.compilerArgs.addAll(listOf("--release", "17"))
+    }
+}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
