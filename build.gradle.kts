@@ -37,6 +37,10 @@ subprojects {
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
+            groupId = "com.invoice.frank"
+            artifactId = project.name
+            version = "1.0"
+
             from(components["java"])
         }
     }
