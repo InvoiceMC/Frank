@@ -3,9 +3,6 @@ plugins {
     `maven-publish`
 }
 
-group = "com.github.InvoiceMC"
-version = "1.0"
-
 repositories {
     mavenCentral()
 }
@@ -32,9 +29,9 @@ subprojects {
         jvmToolchain(17)
     }
 
-    if (name != "common") {
+    if (name != "Frank-Common") {
         dependencies {
-            implementation(project(":common"))
+            implementation(project(":Frank-Common"))
         }
     }
 
@@ -43,16 +40,18 @@ subprojects {
         withJavadocJar()
         toolchain.languageVersion.set(JavaLanguageVersion.of(17))
     }
-}
 
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            groupId = project.group.toString()
-            artifactId = project.name
-            version = project.version.toString()
+    publishing {
+        publications {
+            create<MavenPublication>("mavenJava") {
+                groupId = project.group.toString()
+                artifactId = project.name
+                version = project.version.toString()
 
-            from(components["java"])
+                println("Publishing $artifactId $version to Maven Central ($groupId)")
+
+                from(components["java"])
+            }
         }
     }
 }
