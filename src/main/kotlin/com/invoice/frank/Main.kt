@@ -1,4 +1,4 @@
-package com.invoice.com.invoice.frank
+package com.invoice.frank
 
 fun main() {
     println("Hello World!")

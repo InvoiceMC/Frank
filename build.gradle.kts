@@ -29,15 +29,6 @@ tasks.test {
     useJUnitPlatform()
 }
 
-tasks {
-    compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
-    }
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
-    }
-}
-
 publishing {
     publications {
         create<MavenPublication>("maven") {
@@ -51,5 +42,5 @@ publishing {
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(17)
 }
