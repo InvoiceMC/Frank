@@ -6,10 +6,6 @@ class OutgoingMessage(
     override val id: String = System.currentTimeMillis().toString()
     override val direction: MessageDirection = MessageDirection.OUTGOING
 
-    fun setData(data: Any) {
-        this.data = data
-    }
-
     fun toIncomingMessage(): IncomingMessage {
         return IncomingMessage(this.id, data)
     }

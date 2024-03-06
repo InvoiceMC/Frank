@@ -66,7 +66,7 @@ subprojects {
             create<MavenPublication>("mavenJava") {
                 groupId = project.group.toString()
                 artifactId = project.name
-                version = project.version.toString()
+                version = publicationVersion
 
                 from(components["java"])
             }
