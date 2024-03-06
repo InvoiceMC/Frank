@@ -68,8 +68,6 @@ subprojects {
                 artifactId = project.name
                 version = project.version.toString()
 
-                println("Publishing $artifactId $version to Maven Central ($groupId)")
-
                 from(components["java"])
             }
         }
