@@ -1,6 +1,9 @@
+import java.net.URI
+
 plugins {
     kotlin("jvm") version "1.9.22"
     `maven-publish`
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 repositories {
@@ -19,6 +22,10 @@ subprojects {
 
     repositories {
         mavenCentral()
+        maven {
+            name = "papermc-repo"
+            url = URI("https://repo.papermc.io/repository/maven-public/")
+        }
     }
 
     dependencies {
@@ -30,8 +37,19 @@ subprojects {
     }
 
     if (name != "Frank-Common") {
+        apply(plugin = "com.github.johnrengelman.shadow")
         dependencies {
             implementation(project(":Frank-Common"))
+        }
+
+        tasks {
+            build {
+                dependsOn("shadowJar")
+            }
+
+            shadowJar {
+                archiveClassifier.set("")
+            }
         }
     }
 
