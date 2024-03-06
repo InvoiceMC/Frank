@@ -1,9 +1,8 @@
 package com.invoice.frank.common.duplex.message
 
 class IncomingMessage(
-    private val raw: String
+    override val id: String,
+    override val data: Any
 ): Message {
-    override val id: String = raw.substringBefore('|')
-    override val content: String = raw.substringAfter('|')
     override val direction: MessageDirection = MessageDirection.INCOMING
 }

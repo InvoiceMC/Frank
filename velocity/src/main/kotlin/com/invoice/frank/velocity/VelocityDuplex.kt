@@ -9,6 +9,7 @@ import com.velocitypowered.api.event.connection.PluginMessageEvent
 import com.velocitypowered.api.proxy.ProxyServer
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier
 import com.velocitypowered.api.proxy.server.RegisteredServer
+import java.io.*
 
 abstract class VelocityDuplex (
     private val server: ProxyServer,
@@ -29,21 +30,41 @@ abstract class VelocityDuplex (
 
     @Subscribe
     fun onPluginMessageReceived(event: PluginMessageEvent) {
-        val message = event.data.inputStream()
-        val bytes = message.readBytes()
-        val messageString = String(bytes)
-
         if (event.identifier != inIdentifier) return
 
-        onMessageReceived(IncomingMessage(messageString))
+        val inputStream = event.dataAsInputStream()
+        val objIn = inputStream?.let { ObjectInputStream(it) } ?: return
+
+        val incomingMessage = (objIn.readObject() as OutgoingMessage).toIncomingMessage()
+
+        onMessageReceived(incomingMessage)
     }
 
     override fun send(message: String) {
         server.allServers.forEach { send(message, it) }
     }
 
+    override fun <K: Serializable> sendObject(obj: K) {
+        server.allServers.forEach { sendObject(obj, it) }
+    }
+
     fun send(message: String, server: RegisteredServer) {
-        server.sendPluginMessage(outIdentifier, OutgoingMessage(message).process().toByteArray())
+        val outgoingMessage = OutgoingMessage(message)
+        sendObject(outgoingMessage, server)
+    }
+
+    fun <K: Serializable> sendObject(obj: K, server: RegisteredServer) {
+        val out = ByteArrayOutputStream()
+        val objOut = ObjectOutputStream(out)
+        val outgoingMessage = OutgoingMessage(obj)
+
+        objOut.writeObject(outgoingMessage)
+        objOut.flush()
+        objOut.close()
+
+        val byteArray = out.toByteArray()
+        server.sendPluginMessage(outIdentifier, byteArray)
+        messages.add(outgoingMessage)
     }
 
     abstract fun onMessageReceived(message: IncomingMessage)

@@ -1,7 +1,9 @@
 package com.invoice.frank.common.duplex.message
 
-interface Message {
+import java.io.Serializable
+
+interface Message: Serializable {
     val id: String
-    val content: String
     val direction: MessageDirection
+    val data: Any
 }

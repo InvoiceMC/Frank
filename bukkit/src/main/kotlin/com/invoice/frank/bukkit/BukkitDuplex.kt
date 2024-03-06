@@ -1,6 +1,5 @@
 package com.invoice.frank.bukkit
 
-import com.google.common.io.ByteStreams
 import com.invoice.frank.common.duplex.Duplex
 import com.invoice.frank.common.duplex.message.IncomingMessage
 import com.invoice.frank.common.duplex.message.Message
@@ -8,6 +7,11 @@ import com.invoice.frank.common.duplex.message.OutgoingMessage
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.plugin.messaging.PluginMessageListener
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
+import java.io.Serializable
 
 abstract class BukkitDuplex(
     private val plugin: JavaPlugin,
@@ -27,18 +31,31 @@ abstract class BukkitDuplex(
 
     override fun send(message: String) {
         val outgoingMessage = OutgoingMessage(message)
-        val out = ByteStreams.newDataOutput()
-        out.writeUTF(outgoingMessage.process())
+        sendObject(outgoingMessage)
+    }
+
+    override fun <K : Serializable> sendObject(obj: K) {
+        val out = ByteArrayOutputStream()
+        val objOut = ObjectOutputStream(out)
+        val outgoingMessage = OutgoingMessage(obj)
+
+        objOut.writeObject(outgoingMessage)
+        objOut.flush()
+        objOut.close()
+
         val byteArray = out.toByteArray()
-        val trimmed = byteArray.copyOfRange(2, byteArray.size) // Remove the first two bytes (null and "o")
-        plugin.server.sendPluginMessage(plugin, stringOutIdentifier, trimmed)
+        plugin.server.sendPluginMessage(plugin, stringOutIdentifier, byteArray)
         messages.add(outgoingMessage)
     }
 
     override fun onPluginMessageReceived(channel: String, player: Player, message: ByteArray) {
         if (channel != stringInIdentifier) return
-        val messageString = String(message)
-        val incomingMessage = IncomingMessage(messageString)
+
+        val inputStream = ByteArrayInputStream(message)
+        val objIn = ObjectInputStream(inputStream)
+
+        val incomingMessage = (objIn.readObject() as OutgoingMessage).toIncomingMessage()
+
         messages.add(incomingMessage)
         onMessageReceived(incomingMessage)
     }
