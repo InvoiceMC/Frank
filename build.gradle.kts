@@ -19,7 +19,6 @@ subprojects {
     apply(plugin = "java")
     apply(plugin = "kotlin")
     apply(plugin = "maven-publish")
-    apply(plugin = "com.github.johnrengelman.shadow")
 
     repositories {
         mavenCentral()
@@ -38,8 +37,19 @@ subprojects {
     }
 
     if (name != "Frank-Common") {
+        apply(plugin = "com.github.johnrengelman.shadow")
         dependencies {
             implementation(project(":Frank-Common"))
+        }
+
+        tasks {
+            build {
+                dependsOn("shadowJar")
+            }
+
+            shadowJar {
+                archiveClassifier.set("")
+            }
         }
     }
 
@@ -60,16 +70,6 @@ subprojects {
 
                 from(components["java"])
             }
-        }
-    }
-
-    tasks {
-        build {
-            dependsOn("shadowJar")
-        }
-
-        shadowJar {
-            archiveClassifier.set("")
         }
     }
 }
