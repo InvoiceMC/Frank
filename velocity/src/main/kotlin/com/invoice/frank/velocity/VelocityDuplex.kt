@@ -12,14 +12,16 @@ import com.velocitypowered.api.proxy.server.RegisteredServer
 
 abstract class VelocityDuplex (
     private val server: ProxyServer,
-    override val stringInIdentifier: String,
-    override val stringOutIdentifier: String
+    private val inIdentifier: MinecraftChannelIdentifier,
+    private val outIdentifier: MinecraftChannelIdentifier
 ): Duplex {
     override val messages: MutableList<Message> = mutableListOf()
-    private val inIdentifier = MinecraftChannelIdentifier.from(stringInIdentifier)
-    private val outIdentifier = MinecraftChannelIdentifier.from(stringOutIdentifier)
 
     init {
+        register()
+    }
+
+    private fun register() {
         server.channelRegistrar.register(inIdentifier)
         server.channelRegistrar.register(outIdentifier)
     }

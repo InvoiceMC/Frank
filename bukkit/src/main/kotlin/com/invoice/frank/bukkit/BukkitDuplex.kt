@@ -11,14 +11,18 @@ import org.bukkit.plugin.messaging.PluginMessageListener
 
 abstract class BukkitDuplex(
     private val plugin: JavaPlugin,
-    override val stringInIdentifier: String,
-    override val stringOutIdentifier: String
+    private val stringInIdentifier: String,
+    private val stringOutIdentifier: String
 ): Duplex, PluginMessageListener {
     override val messages = mutableListOf<Message>()
 
     init {
-        plugin.server.messenger.registerOutgoingPluginChannel(plugin, stringInIdentifier)
-        plugin.server.messenger.registerIncomingPluginChannel(plugin, stringOutIdentifier, this)
+        register()
+    }
+
+    private fun register() {
+        plugin.server.messenger.registerIncomingPluginChannel(plugin, stringInIdentifier, this)
+        plugin.server.messenger.registerOutgoingPluginChannel(plugin, stringOutIdentifier)
     }
 
     override fun send(message: String) {
