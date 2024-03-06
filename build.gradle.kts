@@ -1,3 +1,5 @@
+import java.net.URI
+
 plugins {
     kotlin("jvm") version "1.9.22"
     `maven-publish`
@@ -19,6 +21,10 @@ subprojects {
 
     repositories {
         mavenCentral()
+        maven {
+            name = "papermc-repo"
+            url = URI("https://repo.papermc.io/repository/maven-public/")
+        }
     }
 
     dependencies {
