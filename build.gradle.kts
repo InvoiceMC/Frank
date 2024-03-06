@@ -28,10 +28,12 @@ subprojects {
             name = "papermc-repo"
             url = URI("https://repo.papermc.io/repository/maven-public/")
         }
+        maven { url = uri("https://jitpack.io") }
     }
 
     dependencies {
         implementation(kotlin("stdlib-jdk8"))
+        implementation("com.github.InvoiceMC:Munch:e2ee7d2d4e")
     }
 
     kotlin {
