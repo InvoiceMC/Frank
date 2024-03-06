@@ -1,30 +1,21 @@
 package com.invoice.frank.common.duplex.punishments
 
-import me.outspending.munch.Column
-import me.outspending.munch.ColumnConstraint
-import me.outspending.munch.PrimaryKey
-import me.outspending.munch.Table
 import java.io.Serializable
-import java.util.*
-import kotlin.time.Duration
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
-@Table("punishments")
-data class Punishment(
-    @PrimaryKey val id: String = UUID.randomUUID().toString(),
-    @Column val reason: String?,
-    @Column(constraints = [ColumnConstraint.NOTNULL]) val starts: Long,
-    @Column(constraints = [ColumnConstraint.NOTNULL]) val ends: Long,
-    @Column(constraints = [ColumnConstraint.NOTNULL]) val offender: UUID,
-    @Column val punisher: UUID?,
-    @Column(constraints = [ColumnConstraint.NOTNULL]) val type: PunishmentType,
-    @Column(constraints = [ColumnConstraint.NOTNULL]) val silent: Boolean = false
+enum class Punishment (
+    val cleanName: String,
+    val defaultReason: String,
+    val type: PunishmentType,
+    val incrementationPattern: IncrementationPattern
 ): Serializable {
-    fun isActive(): Boolean {
-        return ends > System.currentTimeMillis()
-    }
-    fun getDuration(): Duration {
-        return (ends - starts).toDuration(DurationUnit.MILLISECONDS)
-    }
+    KICK("Kick", "Kicked by a staff member", PunishmentType.KICK, IncrementationPattern.NONE),
+    CHEATS("Cheats", "Cheats are not allowed", PunishmentType.BAN, IncrementationPattern.HIGH),
+    SPAMMING("Spamming", "Restrain from spamming or flooding the chat", PunishmentType.MUTE, IncrementationPattern.TRIVIAL),
+    SWEARING("Swearing", "Refrain from being profane", PunishmentType.MUTE, IncrementationPattern.MEDIUM),
+    ADVERTISING("Advertising", "Advertising is prohibited", PunishmentType.MUTE, IncrementationPattern.HIGH),
+    TROLLING("Trolling", "Stop the trolls", PunishmentType.MUTE, IncrementationPattern.TRIVIAL),
+    DISCRIMINATION("Discrimination", "Discriminatory behavior is prohibited", PunishmentType.BAN, IncrementationPattern.SEVERE),
+    DEATH_THREATS("Death threats", "Death threats are prohibited", PunishmentType.BAN, IncrementationPattern.SEVERE),
+    INAPPROPRIATE("Inappropriate", "Inappropriate behavior is not allowed", PunishmentType.BAN, IncrementationPattern.HIGH),
+    OTHER_PERMANENT("Other permanent", "Other", PunishmentType.BAN, IncrementationPattern.EXTREME),
 }
