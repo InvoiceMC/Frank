@@ -31,9 +31,8 @@ abstract class BukkitDuplex(
         messages.add(outgoingMessage)
     }
 
-    override fun onPluginMessageReceived(channel: String, player: Player, message: ByteArray?) {
+    override fun onPluginMessageReceived(channel: String, player: Player, message: ByteArray) {
         if (channel != stringInIdentifier) return
-        if (message == null) return
         val messageString = String(message)
         val incomingMessage = IncomingMessage(messageString)
         messages.add(incomingMessage)
