@@ -1,12 +1,13 @@
 package com.invoice.frank.common.duplex.punishments
 
+import java.io.Serializable
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 enum class IncrementationPattern (
     val times: Array<Duration>
-) {
+): Serializable {
     NONE(arrayOf()),
     TRIVIAL(arrayOf(
         minutes(15),
