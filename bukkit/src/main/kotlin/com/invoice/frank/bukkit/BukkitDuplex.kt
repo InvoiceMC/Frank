@@ -30,8 +30,7 @@ abstract class BukkitDuplex(
     }
 
     override fun send(message: String) {
-        val outgoingMessage = OutgoingMessage(message)
-        sendObject(outgoingMessage)
+        sendObject(message)
     }
 
     override fun <K : Serializable> sendObject(obj: K) {
