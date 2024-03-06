@@ -1,5 +1,7 @@
 import java.net.URI
 
+val publicationVersion = "1.0.22"
+
 plugins {
     kotlin("jvm") version "1.9.22"
     `maven-publish`
@@ -11,7 +13,7 @@ repositories {
 }
 
 allprojects {
-    version = "1.4"
+    version = publicationVersion
     group = "com.invoice.frank"
 }
 
