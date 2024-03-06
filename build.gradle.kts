@@ -3,6 +3,7 @@ import java.net.URI
 plugins {
     kotlin("jvm") version "1.9.22"
     `maven-publish`
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 repositories {
@@ -18,6 +19,7 @@ subprojects {
     apply(plugin = "java")
     apply(plugin = "kotlin")
     apply(plugin = "maven-publish")
+    apply(plugin = "com.github.johnrengelman.shadow")
 
     repositories {
         mavenCentral()
@@ -58,6 +60,16 @@ subprojects {
 
                 from(components["java"])
             }
+        }
+    }
+
+    tasks {
+        build {
+            dependsOn("shadowJar")
+        }
+
+        shadowJar {
+            archiveClassifier.set("")
         }
     }
 }

@@ -2,15 +2,17 @@ package com.invoice.frank.bukkit
 
 import com.google.common.io.ByteStreams
 import com.invoice.frank.common.duplex.Duplex
-import com.invoice.frank.common.duplex.IncomingMessage
-import com.invoice.frank.common.duplex.Message
-import com.invoice.frank.common.duplex.OutgoingMessage
+import com.invoice.frank.common.duplex.message.IncomingMessage
+import com.invoice.frank.common.duplex.message.Message
+import com.invoice.frank.common.duplex.message.OutgoingMessage
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.plugin.messaging.PluginMessageListener
 
 abstract class BukkitDuplex(
-    private val plugin: JavaPlugin
+    private val plugin: JavaPlugin,
+    override val stringInIdentifier: String,
+    override val stringOutIdentifier: String
 ): Duplex, PluginMessageListener {
     override val messages = mutableListOf<Message>()
 

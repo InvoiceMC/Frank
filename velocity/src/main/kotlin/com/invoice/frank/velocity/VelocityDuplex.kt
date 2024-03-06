@@ -1,8 +1,9 @@
 package com.invoice.frank.velocity
 
 import com.invoice.frank.common.duplex.Duplex
-import com.invoice.frank.common.duplex.IncomingMessage
-import com.invoice.frank.common.duplex.OutgoingMessage
+import com.invoice.frank.common.duplex.message.IncomingMessage
+import com.invoice.frank.common.duplex.message.Message
+import com.invoice.frank.common.duplex.message.OutgoingMessage
 import com.velocitypowered.api.event.Subscribe
 import com.velocitypowered.api.event.connection.PluginMessageEvent
 import com.velocitypowered.api.proxy.ProxyServer
@@ -10,8 +11,11 @@ import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier
 import com.velocitypowered.api.proxy.server.RegisteredServer
 
 abstract class VelocityDuplex (
-    private val server: ProxyServer
+    private val server: ProxyServer,
+    override val stringInIdentifier: String,
+    override val stringOutIdentifier: String
 ): Duplex {
+    override val messages: MutableList<Message> = mutableListOf()
     private val inIdentifier = MinecraftChannelIdentifier.from(stringInIdentifier)
     private val outIdentifier = MinecraftChannelIdentifier.from(stringOutIdentifier)
 

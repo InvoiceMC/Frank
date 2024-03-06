@@ -1,6 +1,4 @@
-package com.invoice.frank.common.duplex
-
-import com.invoice.frank.common.enums.MessageDirection
+package com.invoice.frank.common.duplex.message
 
 interface Message {
     val id: String

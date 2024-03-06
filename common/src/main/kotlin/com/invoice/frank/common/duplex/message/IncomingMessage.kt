@@ -1,6 +1,4 @@
-package com.invoice.frank.common.duplex
-
-import com.invoice.frank.common.enums.MessageDirection
+package com.invoice.frank.common.duplex.message
 
 class IncomingMessage(
     private val raw: String
