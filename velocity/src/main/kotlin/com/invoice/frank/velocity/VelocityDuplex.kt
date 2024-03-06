@@ -24,6 +24,7 @@ abstract class VelocityDuplex (
     private fun register() {
         server.channelRegistrar.register(inIdentifier)
         server.channelRegistrar.register(outIdentifier)
+        server.eventManager.register(server, this)
     }
 
     @Subscribe
