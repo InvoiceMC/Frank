@@ -48,8 +48,7 @@ abstract class VelocityDuplex (
     }
 
     fun send(message: String, server: RegisteredServer) {
-        val outgoingMessage = OutgoingMessage(message)
-        sendObject(outgoingMessage, server)
+        sendObject(message, server)
     }
 
     fun <K: Serializable> sendObject(obj: K, server: RegisteredServer) {
