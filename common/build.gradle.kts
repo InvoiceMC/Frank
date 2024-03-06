@@ -3,7 +3,6 @@ plugins {
 }
 
 group = "com.invoice.frank.common"
-version = "1.4"
 
 repositories {
     mavenCentral()
