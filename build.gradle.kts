@@ -33,7 +33,7 @@ subprojects {
 
     dependencies {
         implementation(kotlin("stdlib-jdk8"))
-        implementation("com.github.InvoiceMC:Munch:e2ee7d2d4e")
+        api("com.github.InvoiceMC:Munch:e2ee7d2d4e")
     }
 
     kotlin {
