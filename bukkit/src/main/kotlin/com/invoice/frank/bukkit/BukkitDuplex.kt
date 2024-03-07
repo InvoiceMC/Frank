@@ -28,7 +28,6 @@ abstract class BukkitDuplex(
         plugin.server.messenger.registerIncomingPluginChannel(plugin, stringInIdentifier, this)
         plugin.server.messenger.registerOutgoingPluginChannel(plugin, stringOutIdentifier)
     }
-
     override fun send(message: String) {
         sendObject(message)
     }
